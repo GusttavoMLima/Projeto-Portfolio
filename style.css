@@ -107,3 +107,30 @@ section {
 .text-muted {
     color: var(--text-muted-color) !important;
 }
+
+/* --- Habilidades: Ícones Interativos --- */
+
+/* Define a cor padrão e a transição */
+#habilidades i {
+    color: var(--text-color);
+    transition: color 0.3s ease-in-out;
+}
+
+/* Garante a cor correta no modo escuro */
+body.dark-mode #habilidades i {
+    color: var(--text-color);
+}
+
+/* Efeito de crescimento (já adicionado em outro commit, mas pode repetir aqui para organização) */
+#habilidades .col-md-3 {
+    transition: transform .3s ease-in-out;
+}
+#habilidades .col-md-3:hover {
+    transform: scale(1.1);
+}
+
+/* Cores específicas no hover */
+#habilidades .col-md-3:hover .bi-filetype-html { color: #E44D26; /* Laranja HTML5 */ }
+#habilidades .col-md-3:hover .bi-filetype-css { color: #264DE4; /* Azul CSS3 */ }
+#habilidades .col-md-3:hover .bi-bootstrap-fill { color: #7952B3; /* Roxo Bootstrap */ }
+#habilidades .col-md-3:hover .bi-git { color: #F05032; /* Laranja Git */ }
