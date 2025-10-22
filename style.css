@@ -171,3 +171,26 @@ body.dark-mode #habilidades i {
     margin-right: 5px;
     margin-bottom: 5px;
 }
+
+/* --- Contacto: Estilos do Formulário --- */
+
+.contact-form .form-control {
+    background-color: var(--bg-color); /* Usa a cor de fundo 'light' */
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Estilo quando o campo está em foco (selecionado) */
+.contact-form .form-control:focus {
+    background-color: var(--bg-secondary-color); /* Fundo branco/escuro */
+    border-color: var(--primary-color);
+    /* Usa a variável RGB para o box-shadow */
+    box-shadow: 0 0 0 0.25rem rgba(var(--primary-color-rgb), 0.25); 
+    color: var(--text-color);
+}
+
+/* Cor do label flutuante */
+.contact-form .form-floating > label {
+    color: var(--text-muted-color);
+}
