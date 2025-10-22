@@ -243,3 +243,22 @@ body.dark-mode .footer-social-icons .btn-outline-light:hover {
 .footer-aprimorado hr {
     border-top: 1px solid var(--border-color);
 }
+
+/* --- Menu Inteligente (Glassmorphism) --- */
+
+/* Estilo do menu quando a página é rolada */
+.navbar.navbar-scrolled {
+    /* Define a cor de fundo com transparência */
+    background-color: rgba(255, 255, 255, 0.5) !important; /* Branco semi-transparente para tema claro */
+    
+    /* A propriedade mágica que cria o efeito de desfoque */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* Para compatibilidade com Safari */
+    
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+/* Ajuste para o modo escuro */
+body.dark-mode .navbar.navbar-scrolled {
+    background-color: rgba(30, 30, 30, 0.5) !important; /* Cinza escuro semi-transparente para tema escuro */
+}

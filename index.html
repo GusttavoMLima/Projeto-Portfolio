@@ -275,6 +275,19 @@
             duration: 1000, // Duração da animação em milissegundos
             once: true,     // Animação acontece apenas uma vez
         });
+
+        // --- SCRIPT DO MENU INTELIGENTE ---
+        const nav = document.querySelector('.navbar');
+        window.addEventListener('scroll', () => {
+            // Se o usuário rolar mais de 50 pixels para baixo...
+            if (window.scrollY > 50) {
+                // ...adiciona a classe que aplica o estilo 'scrolled' (glassmorphism)
+                nav.classList.add('navbar-scrolled');
+            } else {
+                // ...senão, remove a classe, e ele volta a ser transparente
+                nav.classList.remove('navbar-scrolled');
+            }
+        });
     </script>
 </body>
 
