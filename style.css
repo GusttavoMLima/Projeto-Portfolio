@@ -1,0 +1,70 @@
+/* --- VARIÁVEIS DE CORES E TIPOGRAFIA --- */
+:root {
+    /* Tema Claro (Padrão) */
+    --bg-color: #f8f9fa;
+    --bg-secondary-color: #ffffff;
+    --text-color: #343a40;
+    --text-muted-color: #6c757d;
+    --primary-color: #0056b3;
+    --border-color: #ddd;
+
+    /* Fontes (do Google Fonts) */
+    --font-title: 'Montserrat', sans-serif;
+    --font-body: 'Lato', sans-serif;
+    
+    /* Adiciona a variável de cor primária em RGB (para futuros efeitos) */
+    --primary-color-rgb: 0, 86, 179;
+}
+
+/* --- ESTILOS GERAIS --- */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    padding-top: 56px; /* Espaço para o menu fixo no topo */
+    background-color: var(--bg-secondary-color);
+    color: var(--text-color);
+    font-family: var(--font-body);
+}
+
+/* Define as fontes para títulos */
+h1, h2, h3, h4, h5, h6, .navbar-brand {
+    font-family: var(--font-title);
+    font-weight: 700;
+}
+
+/* Define o padding padrão das seções */
+section {
+    padding: 80px 0;
+}
+
+/* Define a cor de fundo das seções "light" */
+.bg-light {
+    background-color: var(--bg-color) !important;
+}
+
+/* --- COMPONENTES --- */
+/* Menu */
+.navbar {
+    /* Faz o menu começar transparente */
+    background-color: transparent !important;
+    transition: background-color 0.4s ease-out;
+}
+
+/* Define a cor do texto do menu para o nosso tema */
+.navbar .nav-link,
+.navbar .navbar-brand {
+    color: var(--text-color) !important;
+}
+
+/* --- Título com Gradiente --- */
+#inicio h1 {
+    background: linear-gradient(45deg, var(--primary-color), var(--text-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    
+    /* Fallback para navegadores que não suportam o efeito */
+    color: var(--text-color); 
+}
