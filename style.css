@@ -68,3 +68,42 @@ section {
     /* Fallback para navegadores que não suportam o efeito */
     color: var(--text-color); 
 }
+
+/* --- Linha do Tempo --- */
+.timeline {
+    position: relative;
+    padding: 20px 0;
+    /* Cria a linha vertical central */
+    border-left: 2px solid var(--border-color);
+    margin-left: 20px;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 40px;
+    padding-left: 40px;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: -9px; /* Posiciona o ponto exatamente sobre a linha */
+    top: 0;
+    height: 16px;
+    width: 16px;
+    background-color: var(--bg-secondary-color); /* Cor de fundo para "recortar" a linha */
+    border: 3px solid var(--primary-color); /* Borda azul */
+    border-radius: 50%;
+}
+
+.timeline-content h5 {
+    color: var(--text-color);
+}
+
+.timeline-content p {
+    margin-bottom: 0;
+}
+
+/* Define a cor do texto "muted" usando a variável */
+.text-muted {
+    color: var(--text-muted-color) !important;
+}
