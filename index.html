@@ -340,6 +340,28 @@
                 themeIcon.classList.add('bi-moon-stars-fill'); // Muda para ícone de lua
             }
         });
+
+        // --- SCRIPT DO EFEITO "DESTACAR TEXTO" NA LINHA DO TEMPO ---
+    const timelineItems = document.querySelectorAll('.timeline-item');
+
+// Cria um "observador" que vigia os elementos
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        // Se o item estiver visível na tela...
+        if (entry.isIntersecting) {
+            entry.target.classList.add('is-in-view'); // Adiciona a classe de destaque
+        } else {
+            entry.target.classList.remove('is-in-view'); // Remove a classe
+        }
+    });
+}, {
+    threshold: 0.5 // Aciona quando 50% do item estiver visível
+});
+
+// Pede ao observador para "vigiar" cada item da linha do tempo
+timelineItems.forEach(item => {
+    observer.observe(item);
+});
     </script>
 </body>
 
