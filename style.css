@@ -282,3 +282,76 @@ body.dark-mode .navbar.navbar-scrolled {
     display: block;       /* Torna visível */
     opacity: 1;           /* Remove a transparência */
 }
+
+/* --- VARIÁVEIS DE CORES E TIPOGRAFIA --- */
+:root {
+    /* Tema Claro (Padrão) */
+    --bg-color: #f8f9fa;
+    --bg-secondary-color: #ffffff;
+    --text-color: #343a40;
+    --text-muted-color: #6c757d;
+    --primary-color: #0056b3;
+    --border-color: #ddd;
+    --font-title: 'Montserrat', sans-serif;
+    --font-body: 'Lato', sans-serif;
+    --primary-color-rgb: 0, 86, 179;
+}
+
+/* ADICIONE ESTA REGRA PARA O MODO ESCURO */
+body.dark-mode {
+    /* Tema Escuro */
+    --bg-color: #121212;
+    --bg-secondary-color: #1e1e1e;
+    --text-color: #e0e0e0;
+    --text-muted-color: #a0a0a0;
+    --primary-color: #0d6efd; /* Azul mais vibrante */
+    --border-color: #444;
+    --primary-color-rgb: 13, 110, 253;
+}
+
+/* AJUSTES GERAIS PARA SUPORTAR OS TEMAS */
+body {
+    /* ... (outros estilos body) ... */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Adiciona transição suave */
+}
+
+/* AJUSTE NOS BOTÕES PARA O MODO ESCURO */
+.btn-dark {
+    background-color: var(--text-color);
+    border-color: var(--text-color);
+    color: var(--bg-secondary-color); /* Garante contraste no texto do botão */
+}
+
+/* AJUSTE NO RODAPÉ APRIMORADO */
+.footer-aprimorado {
+     background-color: var(--bg-color) !important; /* Usa a cor 'light' do tema */
+     color: var(--text-color) !important;
+     transition: background-color 0.3s ease, color 0.3s ease; /* Adiciona transição */
+}
+/* (O resto dos estilos do rodapé já devem usar variáveis) */
+
+/* Garante que os estilos de hover dos ícones sociais funcionem bem em ambos os temas */
+body.dark-mode .footer-social-icons .btn-outline-light {
+    border-color: var(--text-muted-color);
+    color: var(--text-muted-color);
+}
+body.dark-mode .footer-social-icons .btn-outline-light:hover {
+     color: var(--bg-secondary-color);
+}
+
+/* Garante que os cards usem as variáveis corretamente */
+.card {
+    background-color: var(--bg-secondary-color);
+    border: 1px solid var(--border-color);
+    border-top: 4px solid var(--primary-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease, border-top-color 0.3s ease;
+}
+.card .card-title, .card .card-text {
+     color: var(--text-color);
+     transition: color 0.3s ease;
+}
+.card-footer {
+     background-color: var(--bg-secondary-color) !important;
+     border-top: 1px solid var(--border-color) !important;
+     transition: background-color 0.3s ease, border-color 0.3s ease;
+}

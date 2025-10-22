@@ -31,6 +31,10 @@
                     <li class="nav-item"><a class="nav-link" href="#habilidades">Habilidades</a></li>
                     <li class="nav-item"><a class="nav-link" href="#projetos">Projetos</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
+
+                    <li class="nav-item ms-lg-3">
+                        <a class="nav-link" href="#" id="theme-toggle"><i class="bi bi-moon-stars-fill"></i></a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -292,17 +296,50 @@
         });
 
         // --- SCRIPT DO BOTÃO VOLTAR AO TOPO ---
-    const backToTopButton = document.querySelector('#back-to-top');
-    window.addEventListener('scroll', () => {
-        // Se o utilizador rolar mais de 300 pixels para baixo...
-        if (window.scrollY > 300) {
-            // ...adiciona a classe que mostra o botão
-            backToTopButton.classList.add('show');
-        } else {
-            // ...senão, remove a classe para escondê-lo
-            backToTopButton.classList.remove('show');
+        const backToTopButton = document.querySelector('#back-to-top');
+        window.addEventListener('scroll', () => {
+            // Se o utilizador rolar mais de 300 pixels para baixo...
+            if (window.scrollY > 300) {
+                // ...adiciona a classe que mostra o botão
+                backToTopButton.classList.add('show');
+            } else {
+                // ...senão, remove a classe para escondê-lo
+                backToTopButton.classList.remove('show');
+            }
+        });
+
+        // --- SCRIPT DO MODO ESCURO (DARK MODE) ---
+        const themeToggle = document.querySelector('#theme-toggle');
+        const body = document.body;
+        const themeIcon = themeToggle.querySelector('i');
+
+        // Verifica se o utilizador já tem uma preferência salva no localStorage
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            body.classList.add(savedTheme);
+            // Atualiza o ícone se o tema salvo for escuro
+            if (savedTheme === 'dark-mode') {
+                themeIcon.classList.remove('bi-moon-stars-fill');
+                themeIcon.classList.add('bi-sun-fill');
+            }
         }
-    });
+
+        // Adiciona o evento de clique ao botão de alternância
+        themeToggle.addEventListener('click', (e) => {
+            e.preventDefault(); // Impede que o link '#' recarregue a página
+            body.classList.toggle('dark-mode'); // Adiciona ou remove a classe 'dark-mode' do body
+
+            // Verifica qual tema está ativo e atualiza o ícone e o localStorage
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark-mode'); // Salva a preferência
+                themeIcon.classList.remove('bi-moon-stars-fill');
+                themeIcon.classList.add('bi-sun-fill'); // Muda para ícone de sol
+            } else {
+                localStorage.removeItem('theme'); // Remove a preferência
+                themeIcon.classList.remove('bi-sun-fill');
+                themeIcon.classList.add('bi-moon-stars-fill'); // Muda para ícone de lua
+            }
+        });
     </script>
 </body>
 
