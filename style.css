@@ -194,3 +194,52 @@ body.dark-mode #habilidades i {
 .contact-form .form-floating > label {
     color: var(--text-muted-color);
 }
+
+/* --- Rodapé Aprimorado --- */
+
+/* Controla a cor de fundo e texto do rodapé usando variáveis */
+.footer-aprimorado {
+    background-color: var(--bg-color) !important; /* Usa a cor 'light' do tema */
+    color: var(--text-color) !important;
+}
+
+/* Cor dos títulos no rodapé */
+.footer-aprimorado h5 {
+    color: var(--primary-color);
+}
+
+/* Estilo dos links de navegação no rodapé */
+.footer-link {
+    color: var(--text-muted-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+.footer-link:hover {
+    color: var(--primary-color);
+}
+
+/* Estilo dos botões de ícones sociais no rodapé */
+.footer-social-icons .btn-outline-light {
+    border-color: var(--text-muted-color);
+    color: var(--text-muted-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+.footer-social-icons .btn-outline-light:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--bg-secondary-color); /* Cor de texto contrastante */
+}
+
+/* Ajuste específico para garantir contraste no modo escuro (necessário para sobrescrever .btn-outline-light) */
+body.dark-mode .footer-social-icons .btn-outline-light {
+    border-color: var(--text-muted-color);
+    color: var(--text-muted-color);
+}
+body.dark-mode .footer-social-icons .btn-outline-light:hover {
+     color: var(--bg-secondary-color); /* Garante que o ícone fique claro no hover escuro */
+}
+
+/* Estilo da linha divisória (hr) */
+.footer-aprimorado hr {
+    border-top: 1px solid var(--border-color);
+}
