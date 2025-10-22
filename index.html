@@ -265,7 +265,9 @@
 
 
 
-
+    <a href="#inicio" id="back-to-top" class="btn btn-dark btn-lg">
+        <i class="bi bi-arrow-up"></i>
+    </a>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
@@ -288,6 +290,19 @@
                 nav.classList.remove('navbar-scrolled');
             }
         });
+
+        // --- SCRIPT DO BOTÃO VOLTAR AO TOPO ---
+    const backToTopButton = document.querySelector('#back-to-top');
+    window.addEventListener('scroll', () => {
+        // Se o utilizador rolar mais de 300 pixels para baixo...
+        if (window.scrollY > 300) {
+            // ...adiciona a classe que mostra o botão
+            backToTopButton.classList.add('show');
+        } else {
+            // ...senão, remove a classe para escondê-lo
+            backToTopButton.classList.remove('show');
+        }
+    });
     </script>
 </body>
 

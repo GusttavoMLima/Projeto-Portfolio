@@ -262,3 +262,23 @@ body.dark-mode .footer-social-icons .btn-outline-light:hover {
 body.dark-mode .navbar.navbar-scrolled {
     background-color: rgba(30, 30, 30, 0.5) !important; /* Cinza escuro semi-transparente para tema escuro */
 }
+
+/* --- Botão Voltar ao Topo --- */
+#back-to-top {
+    position: fixed;      /* Posição fixa na tela */
+    bottom: 20px;         /* 20 pixels da margem inferior */
+    right: 20px;          /* 20 pixels da margem direita */
+    display: none;        /* Começa escondido */
+    z-index: 100;         /* Fica acima de outros elementos */
+    opacity: 0;           /* Começa transparente */
+    transition: opacity 0.3s ease-in-out; /* Transição suave */
+    /* Cores já definidas pelas variáveis e estilo .btn-dark, mas podemos forçar */
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white; /* Garante que a seta seja sempre branca */
+}
+
+#back-to-top.show {
+    display: block;       /* Torna visível */
+    opacity: 1;           /* Remove a transparência */
+}
