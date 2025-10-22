@@ -18,6 +18,10 @@
 </head>
 
 <body>
+    <div id="preloader">
+        <div class="spinner"></div>
+    </div>
+    <!-- menu de navegação -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
             <a class="navbar-brand" href="#">Gustavo Marques de Lima</a>
@@ -276,6 +280,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
+        // --- SCRIPT DO PRELOADER ---
+        // Adiciona um "ouvinte" para o evento 'load' da janela (quando tudo carregou)
+        window.addEventListener('load', () => {
+            const preloader = document.querySelector('#preloader');
+            preloader.classList.add('loaded'); // Adiciona a classe que faz o preloader desaparecer
+        });
         // --- INICIALIZAÇÃO DO AOS (ANIMAÇÕES DE ROLAGEM) ---
         AOS.init({
             duration: 1000, // Duração da animação em milissegundos
@@ -342,26 +352,26 @@
         });
 
         // --- SCRIPT DO EFEITO "DESTACAR TEXTO" NA LINHA DO TEMPO ---
-    const timelineItems = document.querySelectorAll('.timeline-item');
+        const timelineItems = document.querySelectorAll('.timeline-item');
 
-// Cria um "observador" que vigia os elementos
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        // Se o item estiver visível na tela...
-        if (entry.isIntersecting) {
-            entry.target.classList.add('is-in-view'); // Adiciona a classe de destaque
-        } else {
-            entry.target.classList.remove('is-in-view'); // Remove a classe
-        }
-    });
-}, {
-    threshold: 0.5 // Aciona quando 50% do item estiver visível
-});
+        // Cria um "observador" que vigia os elementos
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                // Se o item estiver visível na tela...
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-in-view'); // Adiciona a classe de destaque
+                } else {
+                    entry.target.classList.remove('is-in-view'); // Remove a classe
+                }
+            });
+        }, {
+            threshold: 0.5 // Aciona quando 50% do item estiver visível
+        });
 
-// Pede ao observador para "vigiar" cada item da linha do tempo
-timelineItems.forEach(item => {
-    observer.observe(item);
-});
+        // Pede ao observador para "vigiar" cada item da linha do tempo
+        timelineItems.forEach(item => {
+            observer.observe(item);
+        });
     </script>
 </body>
 
