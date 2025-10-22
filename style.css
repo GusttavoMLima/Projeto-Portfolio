@@ -134,3 +134,40 @@ body.dark-mode #habilidades i {
 #habilidades .col-md-3:hover .bi-filetype-css { color: #264DE4; /* Azul CSS3 */ }
 #habilidades .col-md-3:hover .bi-bootstrap-fill { color: #7952B3; /* Roxo Bootstrap */ }
 #habilidades .col-md-3:hover .bi-git { color: #F05032; /* Laranja Git */ }
+
+/* --- Projetos: Estilos dos Cards e Tags --- */
+
+/* Efeito hover no card (pode já existir de commits anteriores, verifique) */
+.card.shadow-sm:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+    transition: transform .3s ease-in-out, box-shadow .3s ease-in-out;
+}
+
+/* Garante que o rodapé do card use a cor de fundo correta */
+.card-footer {
+    background-color: var(--bg-secondary-color) !important;
+    border-top: 1px solid var(--border-color) !important; /* Adiciona uma linha sutil */
+}
+
+/* Estilos das Tags de Tecnologia */
+.project-tags {
+    padding-top: 10px; /* Adiciona um espaço acima das tags */
+}
+
+.project-tags .badge {
+    display: inline-block;
+    padding: 0.4em 0.7em;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+    background-color: var(--bg-color); /* Fundo da tag */
+    color: var(--primary-color); /* Cor do texto da tag */
+    border: 1px solid var(--primary-color);
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
