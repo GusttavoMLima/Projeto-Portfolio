@@ -409,3 +409,27 @@ body.dark-mode .footer-social-icons .btn-outline-light:hover {
         transform: rotate(360deg);
     }
 }
+
+/* --- Barra Lateral de Links Sociais --- */
+
+.social-bar {
+    position: fixed;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%); /* Centraliza verticalmente */
+    z-index: 1000;
+    display: flex;
+    flex-direction: column; /* Empilha os ícones verticalmente */
+    gap: 15px; /* Espaçamento entre os ícones */
+}
+
+.social-icon {
+    color: var(--text-muted-color);
+    font-size: 1.5rem; /* Tamanho do ícone */
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-icon:hover {
+    color: var(--primary-color);
+    transform: scale(1.2); /* Aumenta o ícone ao passar o mouse */
+}
