@@ -433,3 +433,37 @@ body.dark-mode .footer-social-icons .btn-outline-light:hover {
     color: var(--primary-color);
     transform: scale(1.2); /* Aumenta o ícone ao passar o mouse */
 }
+
+/* --- Divisores de Secção Angulares --- */
+
+/* Prepara as secções claras para o efeito */
+.bg-light {
+    position: relative; /* Necessário para posicionar o divisor */
+    z-index: 1; /* Garante que fique acima de outros elementos posicionados */
+}
+
+/* Cria o elemento do divisor angular usando um pseudo-elemento */
+.bg-light::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-color); /* Usa a cor de fundo clara do tema */
+    z-index: -1; /* Coloca atrás do conteúdo da secção */
+
+    /* A propriedade mágica que cria a forma diagonal */
+    /* top-left, top-right, bottom-right, bottom-left */
+    clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 95%);
+}
+
+/* Ajuste específico para a primeira secção (#inicio) para não cortar o topo */
+#inicio::before {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 95%);
+}
+
+/* Ajuste específico para a última secção clara (#contato) para não cortar o rodapé */
+#contato::before {
+     clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 100%);
+}
