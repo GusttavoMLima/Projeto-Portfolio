@@ -467,3 +467,20 @@ body.dark-mode .footer-social-icons .btn-outline-light:hover {
 #contato::before {
      clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 100%);
 }
+
+/* --- Barra de Rolagem Estilizada --- */
+
+/* Funciona em navegadores baseados em Webkit (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+    width: 10px; /* Largura da barra */
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-color); /* Cor do fundo da barra (usa a cor clara do tema) */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color); /* Cor do marcador que se move (usa a cor primária) */
+    border-radius: 20px; /* Bordas arredondadas */
+    border: 3px solid var(--bg-color); /* Cria um espaçamento ao redor com a cor clara */
+}
