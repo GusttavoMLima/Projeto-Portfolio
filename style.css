@@ -484,3 +484,69 @@ body.dark-mode .footer-social-icons .btn-outline-light:hover {
     border-radius: 20px; /* Bordas arredondadas */
     border: 3px solid var(--bg-color); /* Cria um espaçamento ao redor com a cor clara */
 }
+
+/* --- Foto de Perfil na Home --- */
+.profile-image-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.profile-image {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border: 5px solid var(--primary-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(var(--primary-color-rgb), 0.3);
+}
+
+/* --- Texto de Missão --- */
+.mission-text {
+    color: var(--primary-color);
+    font-style: italic;
+}
+
+/* --- Projeto em Destaque --- */
+.featured-project {
+    border: 2px solid var(--primary-color);
+    background: linear-gradient(135deg, var(--bg-secondary-color) 0%, var(--bg-color) 100%);
+}
+
+.featured-project .card-title {
+    color: var(--primary-color);
+}
+
+/* --- Estilos para mensagens do formulário --- */
+#form-message {
+    margin-bottom: 1.5rem;
+}
+
+/* --- Ajustes para seção Sobre Mim --- */
+.about-content h3 {
+    color: var(--text-color);
+}
+
+.about-content h4 {
+    color: var(--primary-color);
+}
+
+/* --- Responsividade para foto de perfil --- */
+@media (max-width: 991px) {
+    .profile-image {
+        width: 250px;
+        height: 250px;
+    }
+}
+
+@media (max-width: 575px) {
+    .profile-image {
+        width: 200px;
+        height: 200px;
+    }
+}
