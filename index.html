@@ -331,19 +331,23 @@
             </div>
             <div class="row justify-content-center">
                 <div class="col-lg-8" data-aos="fade-up" data-aos-delay="200">
-                    <form class="contact-form">
+                    <div id="form-message" class="alert" role="alert" style="display: none;"></div>
+                    <form class="contact-form" action="processar_contato.php" method="POST" id="contactForm">
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="formName" placeholder="Seu Nome">
+                            <input type="text" class="form-control" id="formName" name="nome" placeholder="Seu Nome" required>
                             <label for="formName">Seu Nome</label>
+                            <div class="invalid-feedback">Por favor, preencha seu nome.</div>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="email" class="form-control" id="formEmail" placeholder="seu-email@exemplo.com">
+                            <input type="email" class="form-control" id="formEmail" name="email" placeholder="seu-email@exemplo.com" required>
                             <label for="formEmail">Seu E-mail</label>
+                            <div class="invalid-feedback">Por favor, insira um e-mail válido.</div>
                         </div>
                         <div class="form-floating mb-3">
-                            <textarea class="form-control" placeholder="Deixe sua mensagem aqui" id="formMessage"
-                                style="height: 150px"></textarea>
+                            <textarea class="form-control" placeholder="Deixe sua mensagem aqui" id="formMessage" name="mensagem"
+                                style="height: 150px" required></textarea>
                             <label for="formMessage">Mensagem</label>
+                            <div class="invalid-feedback">Por favor, escreva sua mensagem.</div>
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary btn-lg">Enviar Mensagem</button>
@@ -368,9 +372,10 @@
                 <div class="col-md-4 col-lg-3 mx-auto mt-3">
                     <h5 class="text-uppercase mb-4 font-weight-bold">Navegação</h5>
                     <p><a href="#inicio" class="footer-link">Início</a></p>
-                    <p><a href="#sobre" class="footer-link">Minha Jornada</a></p>
-                    <p><a href="#habilidades" class="footer-link">Habilidades</a></p>
+                    <p><a href="#sobre" class="footer-link">Sobre Mim</a></p>
+                    <p><a href="#experiencia" class="footer-link">Experiência e Formação</a></p>
                     <p><a href="#projetos" class="footer-link">Projetos</a></p>
+                    <p><a href="#contato" class="footer-link">Contato</a></p>
                 </div>
 
                 <div class="col-md-4 col-lg-4 mx-auto mt-3">
@@ -493,6 +498,58 @@
         timelineItems.forEach(item => {
             observer.observe(item);
         });
+
+        // --- SCRIPT DO FORMULÁRIO DE CONTATO ---
+        const contactForm = document.getElementById('contactForm');
+        const formMessage = document.getElementById('form-message');
+
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault(); // Impede o envio padrão do formulário
+
+                // Obtém os dados do formulário
+                const formData = new FormData(contactForm);
+                
+                // Reseta mensagens anteriores
+                formMessage.style.display = 'none';
+                formMessage.className = 'alert';
+                formMessage.textContent = '';
+
+                // Envia os dados via AJAX
+                fetch('processar_contato.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.sucesso) {
+                        // Sucesso: mostra mensagem de confirmação
+                        formMessage.className = 'alert alert-success';
+                        formMessage.textContent = data.mensagem;
+                        formMessage.style.display = 'block';
+                        
+                        // Limpa o formulário
+                        contactForm.reset();
+                        
+                        // Scroll suave para a mensagem
+                        formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    } else {
+                        // Erro: mostra mensagens de erro
+                        formMessage.className = 'alert alert-danger';
+                        formMessage.innerHTML = '<strong>Erro:</strong><ul class="mb-0 mt-2">' + 
+                            data.erros.map(erro => '<li>' + erro + '</li>').join('') + '</ul>';
+                        formMessage.style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    // Erro na requisição
+                    formMessage.className = 'alert alert-danger';
+                    formMessage.textContent = 'Ocorreu um erro ao enviar a mensagem. Por favor, tente novamente.';
+                    formMessage.style.display = 'block';
+                    console.error('Erro:', error);
+                });
+            });
+        }
     </script>
 </body>
 
