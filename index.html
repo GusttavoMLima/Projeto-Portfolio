@@ -511,11 +511,6 @@
     <script>
         // --- SCRIPT DO PRELOADER ---
         // Adiciona um "ouvinte" para o evento 'load' da janela (quando tudo carregou)
-        window.addEventListener('load', () => {
-            const preloader = document.querySelector('#preloader');
-            preloader.classList.add('loaded'); // Adiciona a classe que faz o preloader desaparecer
-        });
-        
         // --- SCRIPT DA BARRA DE PROGRESSO DE SCROLL ---
         const scrollProgress = document.getElementById('scroll-progress');
         
@@ -543,11 +538,50 @@
         // Atualiza inicialmente
         updateScrollProgress();
         
-        // --- INICIALIZAÇÃO DO AOS (ANIMAÇÕES DE ROLAGEM) ---
-        AOS.init({
-            duration: 1000, // Duração da animação em milissegundos
-            once: true,     // Animação acontece apenas uma vez
+        // Função para esconder o preloader
+        function hidePreloader() {
+            const preloader = document.querySelector('#preloader');
+            if (preloader) {
+                preloader.classList.add('loaded');
+            }
+        }
+        
+        // Função para inicializar AOS
+        function initAOS() {
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 1000,
+                    once: true,
+                });
+                return true;
+            }
+            return false;
+        }
+        
+        // Tenta inicializar AOS imediatamente (se já estiver carregado)
+        if (!initAOS()) {
+            // Se não estiver carregado, aguarda
+            const checkAOS = setInterval(() => {
+                if (initAOS()) {
+                    clearInterval(checkAOS);
+                }
+            }, 100);
+            
+            // Timeout de segurança: para de tentar após 3 segundos
+            setTimeout(() => {
+                clearInterval(checkAOS);
+            }, 3000);
+        }
+        
+        // Esconde o preloader quando a página carregar
+        window.addEventListener('load', () => {
+            hidePreloader();
         });
+        
+        // Fallback: esconde o preloader após 2 segundos mesmo se 'load' não disparar
+        setTimeout(() => {
+            hidePreloader();
+        }, 2000);
 
         // --- SCRIPT DO MENU INTELIGENTE ---
         const nav = document.querySelector('.navbar');
