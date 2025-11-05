@@ -418,8 +418,10 @@
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary btn-lg" 
+                                    id="submitBtn"
                                     aria-label="Enviar formulário de contato">
-                                Enviar Mensagem
+                                <span id="submitText">Enviar Mensagem</span>
+                                <span id="submitSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
                             </button>
                         </div>
                     </form>
@@ -593,10 +595,106 @@
         // --- SCRIPT DO FORMULÁRIO DE CONTATO ---
         const contactForm = document.getElementById('contactForm');
         const formMessage = document.getElementById('form-message');
+        const submitBtn = document.getElementById('submitBtn');
+        const submitText = document.getElementById('submitText');
+        const submitSpinner = document.getElementById('submitSpinner');
+        let isSubmitting = false; // Flag para prevenir múltiplos envios
 
+        // Validação em tempo real
+        if (contactForm) {
+            const inputs = contactForm.querySelectorAll('input, textarea');
+            
+            inputs.forEach(input => {
+                // Validação ao perder o foco (blur)
+                input.addEventListener('blur', function() {
+                    validateField(this);
+                });
+                
+                // Validação enquanto digita (após primeira validação)
+                let wasValidated = false;
+                input.addEventListener('input', function() {
+                    if (wasValidated) {
+                        validateField(this);
+                    }
+                });
+                
+                input.addEventListener('invalid', function() {
+                    wasValidated = true;
+                    validateField(this);
+                });
+            });
+        }
+
+        // Função para validar campo individual
+        function validateField(field) {
+            const fieldContainer = field.closest('.form-floating');
+            const invalidFeedback = fieldContainer.querySelector('.invalid-feedback');
+            
+            // Remove classes de validação anteriores
+            field.classList.remove('is-valid', 'is-invalid');
+            
+            // Validação básica
+            if (field.validity.valid) {
+                field.classList.add('is-valid');
+                if (invalidFeedback) {
+                    invalidFeedback.style.display = 'none';
+                }
+            } else {
+                field.classList.add('is-invalid');
+                if (invalidFeedback) {
+                    invalidFeedback.style.display = 'block';
+                }
+            }
+        }
+
+        // Validação do formulário completo antes de enviar
+        function validateForm() {
+            const inputs = contactForm.querySelectorAll('input[required], textarea[required]');
+            let isValid = true;
+            
+            inputs.forEach(input => {
+                if (!input.validity.valid) {
+                    validateField(input);
+                    isValid = false;
+                }
+            });
+            
+            return isValid;
+        }
+
+        // Função para mostrar/ocultar indicador de carregamento
+        function setLoadingState(loading) {
+            if (loading) {
+                submitBtn.disabled = true;
+                submitText.textContent = 'Enviando...';
+                submitSpinner.classList.remove('d-none');
+                isSubmitting = true;
+            } else {
+                submitBtn.disabled = false;
+                submitText.textContent = 'Enviar Mensagem';
+                submitSpinner.classList.add('d-none');
+                isSubmitting = false;
+            }
+        }
+
+        // Event listener do formulário
         if (contactForm) {
             contactForm.addEventListener('submit', function(e) {
                 e.preventDefault(); // Impede o envio padrão do formulário
+                
+                // Previne múltiplos envios
+                if (isSubmitting) {
+                    return;
+                }
+
+                // Validação antes de enviar
+                if (!validateForm()) {
+                    formMessage.className = 'alert alert-warning';
+                    formMessage.innerHTML = '<strong>Atenção:</strong> Por favor, corrija os erros no formulário antes de enviar.';
+                    formMessage.style.display = 'block';
+                    formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    return;
+                }
 
                 // Obtém os dados do formulário
                 const formData = new FormData(contactForm);
@@ -605,22 +703,36 @@
                 formMessage.style.display = 'none';
                 formMessage.className = 'alert';
                 formMessage.textContent = '';
+                
+                // Mostra indicador de carregamento
+                setLoadingState(true);
 
                 // Envia os dados via AJAX
                 fetch('./processar_contato.php', {
                     method: 'POST',
                     body: formData
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro na resposta do servidor');
+                    }
+                    return response.json();
+                })
                 .then(data => {
+                    setLoadingState(false);
+                    
                     if (data.sucesso) {
                         // Sucesso: mostra mensagem de confirmação
                         formMessage.className = 'alert alert-success';
                         formMessage.textContent = data.mensagem;
                         formMessage.style.display = 'block';
                         
-                        // Limpa o formulário
+                        // Limpa o formulário e remove classes de validação
                         contactForm.reset();
+                        const validatedFields = contactForm.querySelectorAll('.is-valid, .is-invalid');
+                        validatedFields.forEach(field => {
+                            field.classList.remove('is-valid', 'is-invalid');
+                        });
                         
                         // Scroll suave para a mensagem
                         formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -630,13 +742,16 @@
                         formMessage.innerHTML = '<strong>Erro:</strong><ul class="mb-0 mt-2">' + 
                             data.erros.map(erro => '<li>' + erro + '</li>').join('') + '</ul>';
                         formMessage.style.display = 'block';
+                        formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                     }
                 })
                 .catch(error => {
+                    setLoadingState(false);
                     // Erro na requisição
                     formMessage.className = 'alert alert-danger';
-                    formMessage.textContent = 'Ocorreu um erro ao enviar a mensagem. Por favor, tente novamente.';
+                    formMessage.innerHTML = '<strong>Erro:</strong> Ocorreu um erro ao enviar a mensagem. Por favor, tente novamente.';
                     formMessage.style.display = 'block';
+                    formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                     console.error('Erro:', error);
                 });
             });
