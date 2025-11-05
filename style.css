@@ -563,3 +563,10 @@ body.dark-mode .footer-social-icons .btn-outline-light:hover {
         height: 200px;
     }
 }
+
+/* --- Responsividade: Esconder barra social no mobile --- */
+@media (max-width: 768px) {
+    .social-bar {
+        display: none; /* Esconde a barra lateral de redes sociais em telas pequenas */
+    }
+}
