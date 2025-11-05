@@ -59,6 +59,8 @@
 </head>
 
 <body>
+    <!-- Barra de Progresso de Scroll -->
+    <div id="scroll-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Progresso de leitura da página"></div>
     <div class="social-bar" role="complementary" aria-label="Redes sociais">
         <a href="https://www.linkedin.com/in/gustavo-marques-de-lima" class="social-icon" target="_blank" 
            aria-label="Acessar perfil no LinkedIn (abre em nova aba)" rel="noopener noreferrer">
@@ -114,13 +116,14 @@
             <div class="row align-items-center">
                 <div class="col-lg-4 mb-4 mb-lg-0" data-aos="fade-right">
                     <div class="profile-image-wrapper">
-                        <img src="https://via.placeholder.com/300x300?text=Foto+Perfil" 
+                        <img src="imagens/foto-perfil.jpg" 
                              alt="Foto de perfil de Gustavo Marques de Lima, estudante de Desenvolvimento de Software Multiplataforma" 
                              class="profile-image img-fluid rounded-circle shadow-lg" 
-                             loading="lazy"
+                             loading="eager"
                              width="300"
                              height="300"
-                             decoding="async">
+                             decoding="async"
+                             onerror="this.src='https://via.placeholder.com/300x300?text=Foto+Perfil'">
                     </div>
                 </div>
                 <div class="col-lg-8" data-aos="fade-left">
@@ -512,6 +515,34 @@
             const preloader = document.querySelector('#preloader');
             preloader.classList.add('loaded'); // Adiciona a classe que faz o preloader desaparecer
         });
+        
+        // --- SCRIPT DA BARRA DE PROGRESSO DE SCROLL ---
+        const scrollProgress = document.getElementById('scroll-progress');
+        
+        function updateScrollProgress() {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Calcula a porcentagem de scroll
+            const scrollPercentage = (scrollTop / (documentHeight - windowHeight)) * 100;
+            
+            // Atualiza a largura da barra e o atributo ARIA
+            if (scrollProgress) {
+                scrollProgress.style.width = scrollPercentage + '%';
+                scrollProgress.setAttribute('aria-valuenow', Math.round(scrollPercentage));
+            }
+        }
+        
+        // Atualiza ao scrollar
+        window.addEventListener('scroll', updateScrollProgress);
+        
+        // Atualiza ao redimensionar a janela
+        window.addEventListener('resize', updateScrollProgress);
+        
+        // Atualiza inicialmente
+        updateScrollProgress();
+        
         // --- INICIALIZAÇÃO DO AOS (ANIMAÇÕES DE ROLAGEM) ---
         AOS.init({
             duration: 1000, // Duração da animação em milissegundos
