@@ -5,41 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- SEO Meta Tags -->
     <title>Gustavo Marques de Lima | Desenvolvedor de Software | Portfólio</title>
-    <meta name="description" content="Portfólio de Gustavo Marques de Lima - Estudante de Desenvolvimento de Software Multiplataforma na FATEC Itapira. Auxiliar Fiscal com experiência em TI e área administrativa. Conheça meus projetos e habilidades.">
-    <meta name="keywords" content="Gustavo Marques de Lima, desenvolvedor, programador, portfólio, desenvolvimento de software, FATEC, Itapira, DSM, desenvolvedor full stack, auxiliar fiscal, TI">
     <meta name="author" content="Gustavo Marques de Lima">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://seudominio.com/">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://seudominio.com/">
-    <meta property="og:title" content="Gustavo Marques de Lima | Desenvolvedor de Software | Portfólio">
-    <meta property="og:description" content="Portfólio de Gustavo Marques de Lima - Estudante de Desenvolvimento de Software Multiplataforma na FATEC Itapira. Conheça meus projetos e habilidades.">
-    <meta property="og:image" content="https://seudominio.com/imagens/og-image.jpg">
-    <meta property="og:locale" content="pt_BR">
-    
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://seudominio.com/">
-    <meta name="twitter:title" content="Gustavo Marques de Lima | Desenvolvedor de Software">
-    <meta name="twitter:description" content="Portfólio de Gustavo Marques de Lima - Estudante de Desenvolvimento de Software Multiplataforma na FATEC Itapira.">
-    <meta name="twitter:image" content="https://seudominio.com/imagens/twitter-image.jpg">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    
-    <!-- Performance: DNS Prefetch e Preconnect para recursos externos -->
-    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link rel="dns-prefetch" href="https://unpkg.com">
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://unpkg.com" crossorigin>
     
     <!-- CSS crítico carregado primeiro -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -409,7 +376,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8" data-aos="fade-up" data-aos-delay="200">
                     <div id="form-message" class="alert" role="alert" style="display: none;"></div>
-                    <form class="contact-form" action="processar_contato.php" method="POST" id="contactForm" 
+                    <form class="contact-form" id="contactForm" 
                           aria-label="Formulário de contato">
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="formName" name="nome" 
@@ -785,6 +752,7 @@
 
                 // Obtém os dados do formulário
                 const formData = new FormData(contactForm);
+                const nome = formData.get('nome');
                 
                 // Reseta mensagens anteriores
                 formMessage.style.display = 'none';
@@ -794,53 +762,25 @@
                 // Mostra indicador de carregamento
                 setLoadingState(true);
 
-                // Envia os dados via AJAX
-                fetch('./processar_contato.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Erro na resposta do servidor');
-                    }
-                    return response.json();
-                })
-                .then(data => {
+                // Simula o envio (sem necessidade de servidor)
+                setTimeout(() => {
                     setLoadingState(false);
                     
-                    if (data.sucesso) {
-                        // Sucesso: mostra mensagem de confirmação
-                        formMessage.className = 'alert alert-success';
-                        formMessage.textContent = data.mensagem;
-                        formMessage.style.display = 'block';
-                        
-                        // Limpa o formulário e remove classes de validação
-                        contactForm.reset();
-                        const validatedFields = contactForm.querySelectorAll('.is-valid, .is-invalid');
-                        validatedFields.forEach(field => {
-                            field.classList.remove('is-valid', 'is-invalid');
-                        });
-                        
-                        // Scroll suave para a mensagem
-                        formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                    } else {
-                        // Erro: mostra mensagens de erro
-                        formMessage.className = 'alert alert-danger';
-                        formMessage.innerHTML = '<strong>Erro:</strong><ul class="mb-0 mt-2">' + 
-                            data.erros.map(erro => '<li>' + erro + '</li>').join('') + '</ul>';
-                        formMessage.style.display = 'block';
-                        formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                    }
-                })
-                .catch(error => {
-                    setLoadingState(false);
-                    // Erro na requisição
-                    formMessage.className = 'alert alert-danger';
-                    formMessage.innerHTML = '<strong>Erro:</strong> Ocorreu um erro ao enviar a mensagem. Por favor, tente novamente.';
+                    // Sucesso: mostra mensagem de confirmação
+                    formMessage.className = 'alert alert-success';
+                    formMessage.textContent = `Obrigado pela mensagem, ${nome}! Recebi sua mensagem e entrarei em contato em breve.`;
                     formMessage.style.display = 'block';
+                    
+                    // Limpa o formulário e remove classes de validação
+                    contactForm.reset();
+                    const validatedFields = contactForm.querySelectorAll('.is-valid, .is-invalid');
+                    validatedFields.forEach(field => {
+                        field.classList.remove('is-valid', 'is-invalid');
+                    });
+                    
+                    // Scroll suave para a mensagem
                     formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                    console.error('Erro:', error);
-                });
+                }, 1500); // Simula 1.5 segundos de processamento
             });
         }
     </script>
