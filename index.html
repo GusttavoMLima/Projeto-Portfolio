@@ -597,18 +597,30 @@
         // Adiciona o evento de clique ao botão de alternância
         themeToggle.addEventListener('click', (e) => {
             e.preventDefault(); // Impede que o link '#' recarregue a página
-            body.classList.toggle('dark-mode'); // Adiciona ou remove a classe 'dark-mode' do body
+            
+            // Animação suave do ícone antes de trocar
+            themeIcon.style.transform = 'rotate(180deg) scale(0.8)';
+            themeIcon.style.opacity = '0.5';
+            
+            // Após um pequeno delay, troca o tema e o ícone
+            setTimeout(() => {
+                body.classList.toggle('dark-mode'); // Adiciona ou remove a classe 'dark-mode' do body
 
-            // Verifica qual tema está ativo e atualiza o ícone e o localStorage
-            if (body.classList.contains('dark-mode')) {
-                localStorage.setItem('theme', 'dark-mode'); // Salva a preferência
-                themeIcon.classList.remove('bi-moon-stars-fill');
-                themeIcon.classList.add('bi-sun-fill'); // Muda para ícone de sol
-            } else {
-                localStorage.removeItem('theme'); // Remove a preferência
-                themeIcon.classList.remove('bi-sun-fill');
-                themeIcon.classList.add('bi-moon-stars-fill'); // Muda para ícone de lua
-            }
+                // Verifica qual tema está ativo e atualiza o ícone e o localStorage
+                if (body.classList.contains('dark-mode')) {
+                    localStorage.setItem('theme', 'dark-mode'); // Salva a preferência
+                    themeIcon.classList.remove('bi-moon-stars-fill');
+                    themeIcon.classList.add('bi-sun-fill'); // Muda para ícone de sol
+                } else {
+                    localStorage.removeItem('theme'); // Remove a preferência
+                    themeIcon.classList.remove('bi-sun-fill');
+                    themeIcon.classList.add('bi-moon-stars-fill'); // Muda para ícone de lua
+                }
+                
+                // Restaura a animação do ícone
+                themeIcon.style.transform = 'rotate(0deg) scale(1)';
+                themeIcon.style.opacity = '1';
+            }, 150); // Delay de 150ms para animação suave
         });
 
         // --- SCRIPT DO EFEITO "DESTACAR TEXTO" NA LINHA DO TEMPO ---
