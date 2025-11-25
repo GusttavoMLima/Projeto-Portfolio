@@ -820,6 +820,8 @@
 
                 // Verifica se está rodando em servidor local
                 const isLocalFile = window.location.protocol === 'file:';
+                const isGitHubPages = window.location.hostname.includes('github.io');
+                
                 if (isLocalFile) {
                     setLoadingState(false);
                     formMessage.className = 'alert alert-warning';
@@ -829,7 +831,34 @@
                     return;
                 }
                 
-                // Envia os dados para o servidor PHP
+                // Se estiver no GitHub Pages, usa mailto como fallback
+                if (isGitHubPages) {
+                    const nome = formData.get('nome');
+                    const email = formData.get('email');
+                    const mensagem = formData.get('mensagem');
+                    
+                    const subject = encodeURIComponent(`Contato do Portfólio - ${nome}`);
+                    const body = encodeURIComponent(`Nome: ${nome}\nE-mail: ${email}\n\nMensagem:\n${mensagem}`);
+                    const mailtoLink = `mailto:delimagustavomarques@gmail.com?subject=${subject}&body=${body}`;
+                    
+                    setLoadingState(false);
+                    window.location.href = mailtoLink;
+                    
+                    formMessage.className = 'alert alert-info';
+                    formMessage.innerHTML = '<strong>Info:</strong> Seu cliente de e-mail será aberto. Se não abrir automaticamente, envie um e-mail para <a href="mailto:delimagustavomarques@gmail.com">delimagustavomarques@gmail.com</a>';
+                    formMessage.style.display = 'block';
+                    formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    
+                    // Limpa o formulário
+                    contactForm.reset();
+                    const validatedFields = contactForm.querySelectorAll('.is-valid, .is-invalid');
+                    validatedFields.forEach(field => {
+                        field.classList.remove('is-valid', 'is-invalid');
+                    });
+                    return;
+                }
+                
+                // Envia os dados para o servidor PHP (quando não estiver no GitHub Pages)
                 fetch('processar_contato.php', {
                     method: 'POST',
                     body: formData
