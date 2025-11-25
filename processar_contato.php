@@ -1,4 +1,26 @@
 <?php
+// Inicia buffer de saída para capturar qualquer saída antes do JSON
+ob_start();
+
+// Ativa tratamento de erros para não quebrar o JSON
+error_reporting(E_ALL);
+ini_set('display_errors', 0); // Não exibe erros na saída (para não quebrar o JSON)
+
+// Headers de segurança e CORS
+header('Content-Type: application/json; charset=utf-8');
+header('X-Content-Type-Options: nosniff');
+
+// Função para retornar erro em JSON
+function retornarErro($mensagem) {
+    ob_clean(); // Limpa qualquer saída anterior
+    echo json_encode(array(
+        'sucesso' => false,
+        'erros' => array($mensagem)
+    ), JSON_UNESCAPED_UNICODE);
+    ob_end_flush();
+    exit;
+}
+
 // Verifica se o formulário foi enviado via POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
@@ -33,29 +55,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Se houver erros, retorna JSON com os erros
     if (!empty($erros)) {
-        header('Content-Type: application/json');
+        ob_clean(); // Limpa qualquer saída anterior
         echo json_encode(array(
             'sucesso' => false,
             'erros' => $erros
-        ));
+        ), JSON_UNESCAPED_UNICODE);
+        ob_end_flush();
         exit;
     }
     
+    // Sanitização adicional para segurança
+    $nome = htmlspecialchars($nome, ENT_QUOTES, 'UTF-8');
+    $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+    $mensagem = htmlspecialchars($mensagem, ENT_QUOTES, 'UTF-8');
+    
     // Simula o processamento (não envia e-mail real, apenas simula)
     // Aqui você poderia adicionar código para enviar e-mail ou salvar em banco de dados
+    // Exemplo de envio de e-mail:
+    // $to = "seu-email@exemplo.com";
+    // $subject = "Nova mensagem do portfólio de " . $nome;
+    // $body = "Nome: " . $nome . "\nE-mail: " . $email . "\n\nMensagem:\n" . $mensagem;
+    // mail($to, $subject, $body);
     
     // Retorna sucesso com mensagem personalizada
-    header('Content-Type: application/json');
-    echo json_encode(array(
-        'sucesso' => true,
-        'mensagem' => "Obrigado pela mensagem, " . htmlspecialchars($nome) . "! Recebi sua mensagem e entrarei em contato em breve."
-    ));
-    exit;
+    try {
+        ob_clean(); // Limpa qualquer saída anterior
+        echo json_encode(array(
+            'sucesso' => true,
+            'mensagem' => "Obrigado pela mensagem, " . $nome . "! Recebi sua mensagem e entrarei em contato em breve."
+        ), JSON_UNESCAPED_UNICODE);
+        ob_end_flush();
+        exit;
+    } catch (Exception $e) {
+        retornarErro('Erro ao processar sua mensagem. Por favor, tente novamente.');
+    }
     
 } else {
-    // Se não foi POST, redireciona para a página principal
-    header('Location: index.html');
-    exit;
+    // Se não foi POST, retorna erro em JSON
+    retornarErro('Método não permitido. Use POST para enviar o formulário.');
 }
 ?>
 
