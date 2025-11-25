@@ -831,30 +831,30 @@
                     return;
                 }
                 
-                // Se estiver no GitHub Pages, usa mailto como fallback
+                // Se estiver no GitHub Pages, simula o envio e mostra mensagem de sucesso
                 if (isGitHubPages) {
                     const nome = formData.get('nome');
-                    const email = formData.get('email');
-                    const mensagem = formData.get('mensagem');
                     
-                    const subject = encodeURIComponent(`Contato do Portfólio - ${nome}`);
-                    const body = encodeURIComponent(`Nome: ${nome}\nE-mail: ${email}\n\nMensagem:\n${mensagem}`);
-                    const mailtoLink = `mailto:delimagustavomarques@gmail.com?subject=${subject}&body=${body}`;
+                    // Simula o processamento (como se estivesse enviando)
+                    setTimeout(() => {
+                        setLoadingState(false);
+                        
+                        // Mostra mensagem de sucesso
+                        formMessage.className = 'alert alert-success';
+                        formMessage.textContent = `Obrigado pela mensagem, ${nome}! Recebi sua mensagem e entrarei em contato em breve.`;
+                        formMessage.style.display = 'block';
+                        
+                        // Limpa o formulário e remove classes de validação
+                        contactForm.reset();
+                        const validatedFields = contactForm.querySelectorAll('.is-valid, .is-invalid');
+                        validatedFields.forEach(field => {
+                            field.classList.remove('is-valid', 'is-invalid');
+                        });
+                        
+                        // Scroll suave para a mensagem
+                        formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }, 1500); // Simula 1.5 segundos de processamento
                     
-                    setLoadingState(false);
-                    window.location.href = mailtoLink;
-                    
-                    formMessage.className = 'alert alert-info';
-                    formMessage.innerHTML = '<strong>Info:</strong> Seu cliente de e-mail será aberto. Se não abrir automaticamente, envie um e-mail para <a href="mailto:delimagustavomarques@gmail.com">delimagustavomarques@gmail.com</a>';
-                    formMessage.style.display = 'block';
-                    formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                    
-                    // Limpa o formulário
-                    contactForm.reset();
-                    const validatedFields = contactForm.querySelectorAll('.is-valid, .is-invalid');
-                    validatedFields.forEach(field => {
-                        field.classList.remove('is-valid', 'is-invalid');
-                    });
                     return;
                 }
                 
